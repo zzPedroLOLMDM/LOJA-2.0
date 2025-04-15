@@ -1,0 +1,115 @@
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { ShoppingCart, Search } from "lucide-react";
+import { motion } from "framer-motion";
+
+const catalogos = {
+  "Masculino": [
+    {
+      id: 1,
+      name: "Camiseta Básica Masculina",
+      price: "R$ 49,90",
+      image: "https://via.placeholder.com/300x400?text=Camiseta+Masculina",
+    },
+    {
+      id: 2,
+      name: "Calça Jeans Masculina",
+      price: "R$ 119,90",
+      image: "https://via.placeholder.com/300x400?text=Calça+Masculina",
+    },
+  ],
+  "Feminino": [
+    {
+      id: 3,
+      name: "Blusa Feminina",
+      price: "R$ 59,90",
+      image: "https://via.placeholder.com/300x400?text=Blusa+Feminina",
+    },
+    {
+      id: 4,
+      name: "Saia Jeans Feminina",
+      price: "R$ 89,90",
+      image: "https://via.placeholder.com/300x400?text=Saia+Feminina",
+    },
+  ],
+  "Infantil": [
+    {
+      id: 5,
+      name: "Camiseta Infantil",
+      price: "R$ 39,90",
+      image: "https://via.placeholder.com/300x400?text=Camiseta+Infantil",
+    },
+    {
+      id: 6,
+      name: "Conjunto Infantil",
+      price: "R$ 99,90",
+      image: "https://via.placeholder.com/300x400?text=Conjunto+Infantil",
+    },
+  ],
+};
+
+export default function LojaRoupas() {
+  const [categoriaSelecionada, setCategoriaSelecionada] = useState("Masculino");
+
+  return (
+    <div className="min-h-screen bg-gray-100 p-4">
+      {/* Header */}
+      <header className="flex justify-between items-center py-4 px-6 bg-white shadow rounded-2xl mb-6">
+        <h1 className="text-2xl font-bold">Loja de Roupas</h1>
+        <div className="flex gap-4 items-center">
+          <div className="relative">
+            <Input placeholder="Buscar..." className="pl-10 pr-4 py-2 rounded-full" />
+            <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+          </div>
+          <Button variant="outline">
+            <ShoppingCart className="mr-2 h-5 w-5" /> Carrinho
+          </Button>
+        </div>
+      </header>
+
+      {/* Categorias */}
+      <div className="flex justify-center gap-4 mb-6">
+        {Object.keys(catalogos).map((categoria) => (
+          <Button
+            key={categoria}
+            variant={categoriaSelecionada === categoria ? "default" : "outline"}
+            onClick={() => setCategoriaSelecionada(categoria)}
+          >
+            {categoria}
+          </Button>
+        ))}
+      </div>
+
+      {/* Produtos */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {catalogos[categoriaSelecionada].map((product) => (
+          <motion.div
+            key={product.id}
+            whileHover={{ scale: 1.05 }}
+            className="rounded-2xl overflow-hidden shadow bg-white"
+          >
+            <Card>
+              <img
+                src={product.image}
+                alt={product.name}
+                className="w-full h-80 object-cover"
+              />
+              <CardContent className="p-4">
+                <h2 className="text-lg font-semibold mb-2">{product.name}</h2>
+                <p className="text-gray-700 mb-4">{product.price}</p>
+                <Button className="w-full">Adicionar ao carrinho</Button>
+              </CardContent>
+            </Card>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Footer */}
+      <footer className="mt-12 text-center text-sm text-gray-500">
+        © 2025 Loja de Roupas. Todos os direitos reservados.
+      </footer>
+    </div>
+  );
+}
